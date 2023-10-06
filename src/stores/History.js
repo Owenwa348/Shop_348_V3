@@ -1,9 +1,12 @@
-import box from 'vue'
-export const Order = box ({list : []})
+import { reactive } from 'vue';
 
-export function Alllist (OrderList){
+
+export const orders = reactive({ list: [] });
+
+export function addOrder(orderItems) {
     const newOrder = {
-        id : Order.list.length + 1,item: OrderList
-    }
-    Order.list.push(newOrder)
+        id: orders.list.length + 1, 
+        items: orderItems
+    };
+    orders.list.push(newOrder);
 }

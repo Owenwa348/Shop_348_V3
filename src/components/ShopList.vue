@@ -1,12 +1,14 @@
 <script setup>
-import { ref } from 'vue'
-import { ListmenuStore } from '../stores/ShopEgg'
-import { CartA } from '../stores/counter'
+import { ref } from 'vue';
+import {ListmenuStore} from '../stores/ShopEgg.js';
+import { plusitem } from '../stores/counter.js';
+
+
 const allegg = ListmenuStore ();
 const shopCart = ref(allegg.menuEgg)
 
-const Money = (item) => {
-  CartA(item);
+const AddCart = (item) => {
+  plusitem(item);
 }
 </script>
 
@@ -23,7 +25,7 @@ const Money = (item) => {
               <p class="card-text">ราคา {{ i.price }} บาท</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button class="btn btn-success" type="submit" @click="Money(i)">ใส่ลงตะกร้า</button>
+                  <button class="btn btn-success" type="submit" @click="AddCart(i)">ใส่ลงตะกร้า</button>
                 </div>
               </div>
             </div>

@@ -33,7 +33,7 @@ const totalOrderPrice = (order) => {
               <p><span class="text-muted">ราคา : {{ item.price }} บาท</span></p>
             </div>
             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-              <input id="form1" min="0" name="quantity" type="number" v-model="item.quantity" class="form-control form-control-sm" />
+              <h id="form1" min="0" name="quantity" type="number" class="form-control form-control-sm" >{{ item.quantity }}</h> 
             </div>
             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
               <h5 class="mb-0">{{ totalPrice(item) }} บาท</h5>
@@ -54,7 +54,7 @@ const totalOrderPrice = (order) => {
     </div>
 
     <div v-else>
-      <p style="color: red;">**ไม่มีรายการคำสั่งซื้อ**</p>
+      <p style="color: rgb(255, 179, 0);">**ไม่มีรายการคำสั่งซื้อ**</p>
     </div>
   </div>
 </template>

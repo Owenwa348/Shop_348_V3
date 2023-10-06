@@ -1,41 +1,60 @@
 <script setup>
 import HeaderList from './HeaderList.vue';
+import { orders } from '../stores/History';
+import { computed } from 'vue';
 
+const totalPrice = (item) => computed(() => item.quantity * item.price);
 
+const totalItemsInOrder = (order) => {
+  return order.items.reduce((accum, item) => accum + item.quantity, 0);
+};
+
+const totalOrderPrice = (order) => {
+  return order.items.reduce((accum, item) => accum + item.quantity * item.price, 0);
+};
 </script>
 
 <template>
   <HeaderList></HeaderList>
-  <main class="flex-shrink-0">
-  <div class="container">
-    <h1 class="mt-5">ประวัติการสังซื้อ</h1>
-    <p class="lead">รายการที่ลูกค้าสั่งซื้อทั้งหมดจำนวน....</p>
-  </div>
-</main>
+  <div class="container_all">
+    <h2>ประวัติการสั่งซื้อ</h2>
 
-<footer class="footer mt-auto py-3 bg-body-tertiary">
-  <div class="container">
-  </div>
-  <div class="container">
-  <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary" style="width: 380px;">
-    <a class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
-      <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-      <span class="fs-5 fw-semibold">ตรวจสอบรายการ</span>
-    </a>
-    <div class="list-group list-group-flush border-bottom scrollarea">
-      <a class="list-group-item list-group-item-action py-3 lh-sm">
-        <div class="d-flex w-100 align-items-center justify-content-between">
-          <strong class="mb-1">สินค้าที่สั่ง</strong>
-          <img id="OrderHistory" src="https://pbs.twimg.com/media/F7pyyTdagAAyQKr?format=jpg&name=4096x4096" class="rounded float-end" width="100" height="100" />
+    <div v-if="orders.list.length">
+      <div class="card rounded-3 mb-4" v-for="(order) in orders.list" :key="order.id">
+        <h3 class="m-3">คำสั่งซื้อที่ : {{ order.id }} </h3>
+        <div class="card-body p-4" v-for="(item, index) in order.items" :key="item.name">
+          <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-md-2 col-lg-2 col-xl-2">
+              <img :src="item.img" class="img-fluid rounded-3" alt="Cotton T-shirt">
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <span>รายการ {{ index + 1 }} </span>
+              <p class="lead fw-normal mb-2">{{ item.name }}</p>
+              <p><span class="text-muted">ราคา : {{ item.price }} บาท</span></p>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+              <input id="form1" min="0" name="quantity" type="number" v-model="item.quantity" class="form-control form-control-sm" />
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+              <h5 class="mb-0">{{ totalPrice(item) }} บาท</h5>
+            </div>
+          </div>
         </div>
-        <div class="col-10 mb-1 small">ราคา....</div>
-      </a>
+        <div class="card-body p-4">
+          <div class="float-end">
+            <p class="mb-0 me-5 d-flex align-items-center">
+              <h4><span class="small text-muted me-2"> รายการทั้งหมด {{ totalItemsInOrder(order) }} จำนวน </span></h4>
+            </p>
+            <p class="mb-0 me-5 d-flex align-items-center">
+              <strong><h3><span class="small text-muted me-2"> ยอดรวมทั้งหมด {{ totalOrderPrice(order) }} บาท</span></h3></strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <p style="color: red;">**ไม่มีรายการคำสั่งซื้อ**</p>
     </div>
   </div>
-</div>
-</footer>
 </template>
-
-<style scoped>
-
-</style>

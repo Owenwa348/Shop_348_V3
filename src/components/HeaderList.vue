@@ -1,6 +1,13 @@
 <script setup>
+import { CartA } from '../stores/counter.js';
+import { computed } from 'vue';
+
+const totalItems = computed(() => CartA.value.reduce((acc, item) => acc + item.quantity, 0));
+
 
 </script>
+
+
 <template>
     <div class="container">
       <div class="p-3 mb-2 bg-info text-dark">
@@ -17,7 +24,7 @@
           <router-link :to="'/cart'">
           <a class="btn btn-warning" aria-current="page">สินค้าในตะกร้า
           <img id="Cart" src="https://obs.line-scdn.net/r/ect/ect/image_165658673948875649919cf9589t0ff9a8e3" class="iconCart" alt="Cart" width="50" height="50" />
-          <span class="badge text-bg-danger">0</span>
+          <span class="badge text-bg-danger">{{totalItems}}</span>
         </a>
       </router-link>
     </li>
